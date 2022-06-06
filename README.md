@@ -326,3 +326,4 @@ helm install prometheus-for-amp prometheus-community/prometheus -n istio-system 
 * refer to this blog: https://aws.amazon.com/blogs/mt/monitor-istio-on-eks-using-amazon-managed-prometheus-and-amazon-managed-grafana/
 
 
+* refer to this blog for cognito: https://aws.amazon.com/blogs/containers/introducing-oidc-identity-provider-authentication-amazon-eks/
