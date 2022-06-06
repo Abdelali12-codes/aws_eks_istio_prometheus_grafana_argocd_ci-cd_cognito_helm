@@ -1,0 +1,88 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: my-cluster
+  region: eu-west-3
+
+iam:
+  withOIDC: true
+
+
+#fargateProfiles:
+#  - name: fp-app1
+#    selectors:
+#     - namespace: ns-app1
+
+
+#  - name: fp-app2
+#    selectors:
+#      - namespace: ns-app2
+#        labels:
+#           runon: fargate
+
+vpc:
+  id: "vpc-081450fedc7fe119c"
+  cidr: "15.10.0.0/16"
+  subnets:
+#    private:
+#      eu-west-3b:
+#          id: "subnet-0a9db1e6742c4e7b5"
+#      eu-west-3c:
+#          id: "subnet-0990855ccdab6c73e"
+#      eu-west-3a:
+#          id: "subnet-04f34cc75ccbcf8c5"
+    public:
+       eu-west-3b:
+         id: "subnet-002df015872eb9fad"
+       eu-west-3c:
+          id: "subnet-00898d46521399e6a"
+       eu-west-3a:
+          id: "subnet-0578e10412df58377"     
+         
+
+nodeGroups:
+ # - name: ng-1
+ #   instanceType: t2.micro
+ #   desiredCapacity: 2
+ #   minSize: 2
+ #   maxSize: 2
+ #   volumeSize: 8
+ #   volumeType: gp2    
+ #   ami: ami-04a7df89e71c1c3c6
+   # amiFamily: 
+ #   privateNetworking: true
+ #   taints:
+ #     - key: special
+ #       value: "true"
+ #       effect: NoSchedule
+ #   labels: 
+ #      nodegroup-type: private-ng
+
+  #  ssh: # use existing EC2 key
+  #    publicKeyName: ssm_manager
+  #    allow: true
+
+  - name: ng-2
+    instanceType: t2.xlarge
+    desiredCapacity: 2
+    minSize: 2
+    maxSize: 5
+    iam:
+      withAddonPolicies:
+         autoScaler: true
+    volumeSize: 8
+    volumeType: gp2
+    availabilityZones:
+      - eu-west-3b
+      - eu-west-3a
+    labels:
+      nodegroupe-type: public-ng
+    ssh:
+      publicKeyPath: ~/.ssh/id_rsa.pub
+      allow: true
+
+
+cloudWatch:
+  clusterLogging:
+    enableTypes: ["audit", "authenticator"]

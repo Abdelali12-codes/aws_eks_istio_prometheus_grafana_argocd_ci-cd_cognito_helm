@@ -1,0 +1,11 @@
+cat cluster1.yaml
+---
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: cluster-1
+  region: eu-north-1
+  version: "1.16"
+
+eksctl upgrade cluster --config-file cluster1.yaml
